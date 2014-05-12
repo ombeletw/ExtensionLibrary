@@ -6,6 +6,8 @@
 
 using System.IO;
 using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace ExtensionLibrary.Xml.Serialization
@@ -76,6 +78,33 @@ namespace ExtensionLibrary.Xml.Serialization
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Validates XML against the given xsd
+        /// </summary>
+        /// <param name="xmlFilePath">The path where the xml is located</param>
+        /// <param name="xsdFilePath">The path where the xsd is located</param>
+        /// <returns></returns>
+        public static bool ValidateXml(this string xmlFilePath, string xsdFilePath)
+        {
+            try
+            {
+                using (StreamReader s = new StreamReader(xmlFilePath, true))
+                {
+                    var xDoc = XDocument.Load(s);
+                    var schema = new XmlSchemaSet();
+                    schema.Add(null, xsdFilePath);
+
+
+                    xDoc.Validate(schema, null);
+                    return true;
+                }
+            }
+            catch (System.Exception e)
+            {
+                return false;
+            }
         }
     }
 }
