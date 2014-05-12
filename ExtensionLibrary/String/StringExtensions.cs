@@ -4,12 +4,12 @@
  * https://github.com/ombeletw/ExtensionLibrary
  */
 
-namespace ExtensionLibrary.String
+namespace ExtensionLibrary.StringExtensions
 {
     /// <summary>
     /// A class with extension methods pertaining to strings.
     /// </summary>
-    public static class String
+    public static class StringExtensions
     {
         /// <summary>
         /// Provides a more linguitically natural method to determine whether the specified string is null or empty.

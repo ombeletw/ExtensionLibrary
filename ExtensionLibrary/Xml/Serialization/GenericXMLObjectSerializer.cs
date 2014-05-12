@@ -1,9 +1,11 @@
 ﻿/*
- * Author: Wim Ombelets
+ * Author: Wim Ombelets, Nicolas Pierre
  * Date: 2014-04-01
  * https://github.com/ombeletw/GenericXMLObjectSerializer
  */
 
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
@@ -96,15 +98,20 @@ namespace ExtensionLibrary.Xml.Serialization
                     var schema = new XmlSchemaSet();
                     schema.Add(null, xsdFilePath);
 
+                    xDoc.Validate(schema, (o, e) =>
+                    {
+                        throw new XmlSchemaValidationException(e.Message);
+                    });
 
-                    xDoc.Validate(schema, null);
                     return true;
                 }
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
-                return false;
+                Debug.WriteLine(e.Message);
             }
+
+            return false;
         }
     }
 }
