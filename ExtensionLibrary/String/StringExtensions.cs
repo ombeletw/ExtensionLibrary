@@ -4,6 +4,8 @@
  * https://github.com/ombeletw/ExtensionLibrary
  */
 
+using System.Text;
+
 namespace ExtensionLibrary.StringExtensions
 {
     /// <summary>
@@ -19,6 +21,24 @@ namespace ExtensionLibrary.StringExtensions
         public static bool IsNotNullOrEmpty(this string s)
         {
             return !string.IsNullOrEmpty(s);
+        }
+
+        /// <summary>
+        /// Trim all non letters from a string.
+        /// </summary>
+        /// <param name="input">The String</param>
+        /// <returns>Trimmed String</returns>
+        public static string TrimNonLetters(string input)
+        {
+            var sb = new StringBuilder(input.Length);
+            
+            foreach (var item in input)
+            {
+                if (char.IsLetter(item))
+                    sb.Append(item);
+            }
+
+            return sb.ToString();
         }
     }
 }
