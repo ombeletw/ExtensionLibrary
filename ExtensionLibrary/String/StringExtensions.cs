@@ -28,7 +28,7 @@ namespace ExtensionLibrary.StringExtensions
         /// </summary>
         /// <param name="input">The String</param>
         /// <returns>Trimmed String</returns>
-        public static string TrimNonLetters(string input)
+        public static string TrimNonLetters(this string input)
         {
             var sb = new StringBuilder(input.Length);
             
@@ -39,6 +39,17 @@ namespace ExtensionLibrary.StringExtensions
             }
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Trim given leading char (e.g. 00000000065239656).
+        /// </summary>
+        /// <param name="input">The String</param>
+        /// <param name="charaterToTrim">Char To Trim off</param>
+        /// <returns></returns>
+        public static string TrimLeadingCharacters(this string input, char charaterToTrim)
+        {
+            return input = input.TrimStart(charaterToTrim);
         }
     }
 }
