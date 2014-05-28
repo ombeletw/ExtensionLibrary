@@ -49,7 +49,7 @@ namespace ExtensionLibrary.StringExtensions
         /// <returns></returns>
         public static string TrimLeadingCharacters(this string input, char charaterToTrim)
         {
-            return input = input.TrimStart(charaterToTrim);
+            return input.TrimStart(charaterToTrim);
         }
     }
 }
