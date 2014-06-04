@@ -27,14 +27,14 @@ namespace ExtensionLibrary.Xml.Serialization
         /// <typeparam name="T"></typeparam>
         /// <param name="obj">The object.</param>
         /// <returns></returns>
-        public static string Serialize<T>(this T obj) where T : class
+        public static string Serialize<T>(this T obj, XmlSerializerNamespaces nameSpaces) where T : class
         {
             XmlSerializer xs = new XmlSerializer(typeof(T));
             StringWriter writer = new StringWriter();
 
             using (XmlWriter xmlwriter = XmlWriter.Create(writer, settings))
             {
-                xs.Serialize(xmlwriter, obj);
+                xs.Serialize(xmlwriter, obj, nameSpaces);
             }
 
             //reset XmlWriterSettings
@@ -50,7 +50,7 @@ namespace ExtensionLibrary.Xml.Serialization
         /// <param name="obj">The object.</param>
         /// <param name="prettyPrint">if set to <c>true</c> [write indented XML].</param>
         /// <returns></returns>
-        public static string Serialize<T>(this T obj, bool prettyPrint) where T : class
+        public static string Serialize<T>(this T obj, bool prettyPrint, XmlSerializerNamespaces nameSpaces) where T : class
         {
             //create settings if needed
             if (prettyPrint)
@@ -60,7 +60,7 @@ namespace ExtensionLibrary.Xml.Serialization
                 settings.IndentChars = "  ";
             }
 
-            return Serialize<T>(obj);
+            return Serialize<T>(obj,nameSpaces);
         }
 
         /// <summary>
