@@ -11,6 +11,8 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using System.Xml.XPath;
+using System.Xml.Xsl;
 
 namespace ExtensionLibrary.Xml.Serialization
 {
@@ -112,6 +114,39 @@ namespace ExtensionLibrary.Xml.Serialization
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Transforms the given XML string with the given stylesheet
+        /// </summary>
+        /// <param name="xslpath">Path of XSL</param>
+        /// <returns></returns>
+        public static string Transform(this string xmlString, string xslpath)
+        {
+            string output = String.Empty;
+            try
+            {
+                StringReader rdr = new StringReader(xmlString);
+                XPathDocument myXPathDoc = new XPathDocument(rdr);
+
+                var myXslTrans = new XslCompiledTransform();
+
+                myXslTrans.Load(xslpath);
+
+                StringWriter sw = new StringWriter();
+                XmlWriter xwo = XmlWriter.Create(sw, settings);
+
+                myXslTrans.Transform(myXPathDoc, null, xwo);
+                output = sw.ToString();
+
+                settings = null;
+                xwo.Close();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            return output;
         }
     }
 }
