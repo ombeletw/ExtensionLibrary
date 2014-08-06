@@ -19,27 +19,31 @@ namespace ExtensionLibrary.List
         /// <returns>DataTable</returns>
         public static DataTable ToDataTable<T>(this IEnumerable<T> list) where T : class
         {
-            Type elementType = typeof(T);
-            using (DataTable t = new DataTable())
+            if (list != null)
             {
-                PropertyInfo[] _props = elementType.GetProperties();
-                foreach (PropertyInfo propInfo in _props)
+                Type elementType = typeof(T);
+                using (DataTable t = new DataTable())
                 {
-                    Type _pi = propInfo.PropertyType;
-                    Type ColType = Nullable.GetUnderlyingType(_pi) ?? _pi;
-                    t.Columns.Add(propInfo.Name, ColType);
-                }
-                foreach (T item in list)
-                {
-                    DataRow row = t.NewRow();
+                    PropertyInfo[] _props = elementType.GetProperties();
                     foreach (PropertyInfo propInfo in _props)
                     {
-                        row[propInfo.Name] = propInfo.GetValue(item, null) ?? DBNull.Value;
+                        Type _pi = propInfo.PropertyType;
+                        Type ColType = Nullable.GetUnderlyingType(_pi) ?? _pi;
+                        t.Columns.Add(propInfo.Name, ColType);
                     }
-                    t.Rows.Add(row);
+                    foreach (T item in list)
+                    {
+                        DataRow row = t.NewRow();
+                        foreach (PropertyInfo propInfo in _props)
+                        {
+                            row[propInfo.Name] = propInfo.GetValue(item, null) ?? DBNull.Value;
+                        }
+                        t.Rows.Add(row);
+                    }
+                    return t;
                 }
-                return t;
             }
+            return null;
         }
 
         /// <summary>
@@ -50,11 +54,15 @@ namespace ExtensionLibrary.List
         /// <returns>DataSet</returns>
         public static DataSet ToDataSet<T>(this IEnumerable<T> list) where T : class
         {
-            using (DataSet ds = new DataSet())
+            if (list != null)
             {
-                ds.Tables.Add(list.ToDataTable());
-                return ds;
+                using (DataSet ds = new DataSet())
+                {
+                    ds.Tables.Add(list.ToDataTable());
+                    return ds;
+                }
             }
+            return null;
         }
     }
 }

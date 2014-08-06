@@ -13,6 +13,7 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Xml.XPath;
 using System.Xml.Xsl;
+using ExtensionLibrary.Strings;
 
 namespace ExtensionLibrary.Xml.Serialization
 {
@@ -31,18 +32,22 @@ namespace ExtensionLibrary.Xml.Serialization
         /// <returns></returns>
         public static string Serialize<T>(this T obj, XmlSerializerNamespaces nameSpaces) where T : class
         {
-            XmlSerializer xs = new XmlSerializer(typeof(T));
-            StringWriter writer = new StringWriter();
-
-            using (XmlWriter xmlwriter = XmlWriter.Create(writer, settings))
+            if (obj != null && nameSpaces != null)
             {
-                xs.Serialize(xmlwriter, obj, nameSpaces);
+                XmlSerializer xs = new XmlSerializer(typeof(T));
+                StringWriter writer = new StringWriter();
+
+                using (XmlWriter xmlwriter = XmlWriter.Create(writer, settings))
+                {
+                    xs.Serialize(xmlwriter, obj, nameSpaces);
+                }
+
+                //reset XmlWriterSettings
+                settings = null;
+
+                return writer.ToString();
             }
-
-            //reset XmlWriterSettings
-            settings = null;
-
-            return writer.ToString();
+            return null;
         }
 
         /// <summary>
@@ -54,15 +59,19 @@ namespace ExtensionLibrary.Xml.Serialization
         /// <returns></returns>
         public static string Serialize<T>(this T obj, bool prettyPrint, XmlSerializerNamespaces nameSpaces) where T : class
         {
-            //create settings if needed
-            if (prettyPrint)
+            if (obj != null && nameSpaces != null)
             {
-                settings = new XmlWriterSettings();
-                settings.Indent = true;
-                settings.IndentChars = "  ";
+                //create settings if needed
+                if (prettyPrint)
+                {
+                    settings = new XmlWriterSettings();
+                    settings.Indent = true;
+                    settings.IndentChars = "  ";
+                }
+                return Serialize<T>(obj, nameSpaces);
             }
 
-            return Serialize<T>(obj,nameSpaces);
+            return null;
         }
 
         /// <summary>
@@ -73,15 +82,18 @@ namespace ExtensionLibrary.Xml.Serialization
         /// <returns></returns>
         public static T Deserialize<T>(this string serializedObj) where T : class
         {
-            XmlSerializer xs = new XmlSerializer(typeof(T));
-            T result;
-
-            using (TextReader reader = new StringReader(serializedObj))
+            if (serializedObj.IsNotNullOrEmpty())
             {
-                result = xs.Deserialize(reader) as T;
+                XmlSerializer xs = new XmlSerializer(typeof(T));
+                T result;
+
+                using (TextReader reader = new StringReader(serializedObj))
+                    result = xs.Deserialize(reader) as T;
+
+                return result;
             }
 
-            return result;
+            return null;
         }
 
         /// <summary>
@@ -92,25 +104,28 @@ namespace ExtensionLibrary.Xml.Serialization
         /// <returns></returns>
         public static bool ValidateXml(this string xmlFilePath, string xsdFilePath)
         {
-            try
+            if (xmlFilePath.IsNotNullOrEmpty() && xsdFilePath.IsNotNullOrEmpty())
             {
-                using (StreamReader s = new StreamReader(xmlFilePath, true))
+                try
                 {
-                    var xDoc = XDocument.Load(s);
-                    var schema = new XmlSchemaSet();
-                    schema.Add(null, xsdFilePath);
-
-                    xDoc.Validate(schema, (o, e) =>
+                    using (StreamReader s = new StreamReader(xmlFilePath, true))
                     {
-                        throw new XmlSchemaValidationException(e.Message);
-                    });
+                        var xDoc = XDocument.Load(s);
+                        var schema = new XmlSchemaSet();
+                        schema.Add(null, xsdFilePath);
 
-                    return true;
+                        xDoc.Validate(schema, (o, e) =>
+                        {
+                            throw new XmlSchemaValidationException(e.Message);
+                        });
+
+                        return true;
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
             }
 
             return false;
@@ -124,28 +139,33 @@ namespace ExtensionLibrary.Xml.Serialization
         public static string Transform(this string xmlString, string xslpath)
         {
             string output = String.Empty;
-            try
+
+            if (xmlString.IsNotNullOrEmpty() && xslpath.IsNotNullOrEmpty())
             {
-                StringReader rdr = new StringReader(xmlString);
-                XPathDocument myXPathDoc = new XPathDocument(rdr);
+                try
+                {
+                    StringReader rdr = new StringReader(xmlString);
+                    XPathDocument myXPathDoc = new XPathDocument(rdr);
 
-                var myXslTrans = new XslCompiledTransform();
+                    var myXslTrans = new XslCompiledTransform();
 
-                myXslTrans.Load(xslpath);
+                    myXslTrans.Load(xslpath);
 
-                StringWriter sw = new StringWriter();
-                XmlWriter xwo = XmlWriter.Create(sw, settings);
+                    StringWriter sw = new StringWriter();
+                    XmlWriter xwo = XmlWriter.Create(sw, settings);
 
-                myXslTrans.Transform(myXPathDoc, null, xwo);
-                output = sw.ToString();
+                    myXslTrans.Transform(myXPathDoc, null, xwo);
+                    output = sw.ToString();
 
-                settings = null;
-                xwo.Close();
+                    settings = null;
+                    xwo.Close();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
             }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-            }
+
             return output;
         }
     }

@@ -1,12 +1,12 @@
 ﻿/*
- * Author: Wim Ombelets
+ * Author: Wim Ombelets, Nicolas Pierre
  * Date: 2014-05-09
  * https://github.com/ombeletw/ExtensionLibrary
  */
 
 using System.Text;
 
-namespace ExtensionLibrary.StringExtensions
+namespace ExtensionLibrary.Strings
 {
     /// <summary>
     /// A class with extension methods pertaining to strings.
@@ -30,15 +30,19 @@ namespace ExtensionLibrary.StringExtensions
         /// <returns>Trimmed String</returns>
         public static string TrimNonLetters(this string input)
         {
-            var sb = new StringBuilder(input.Length);
-            
-            foreach (var item in input)
+            if (input.IsNotNullOrEmpty())
             {
-                if (char.IsLetter(item))
-                    sb.Append(item);
-            }
+                var sb = new StringBuilder(input.Length);
 
-            return sb.ToString();
+                foreach (var item in input)
+                {
+                    if (char.IsLetter(item))
+                        sb.Append(item);
+                }
+
+                return sb.ToString();
+            }
+            return null;
         }
 
         /// <summary>
@@ -49,7 +53,9 @@ namespace ExtensionLibrary.StringExtensions
         /// <returns></returns>
         public static string TrimLeadingCharacters(this string input, char charaterToTrim)
         {
-            return input.TrimStart(charaterToTrim);
+            if (input.IsNotNullOrEmpty() && charaterToTrim != null)
+                return input.TrimStart(charaterToTrim);
+            return null;
         }
     }
 }
