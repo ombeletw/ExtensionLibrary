@@ -17,7 +17,7 @@ namespace ExtensionLibrary.List
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <returns>DataTable</returns>
-        public static DataTable ToDataTable<T>(this IEnumerable<T> list)
+        public static DataTable ToDataTable<T>(this IEnumerable<T> list) where T : class
         {
             Type elementType = typeof(T);
             using (DataTable t = new DataTable())
@@ -48,7 +48,7 @@ namespace ExtensionLibrary.List
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <returns>DataSet</returns>
-        public static DataSet ToDataSet<T>(this IEnumerable<T> list)
+        public static DataSet ToDataSet<T>(this IEnumerable<T> list) where T : class
         {
             using (DataSet ds = new DataSet())
             {
