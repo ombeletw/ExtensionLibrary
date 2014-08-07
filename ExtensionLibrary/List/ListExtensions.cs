@@ -3,6 +3,7 @@
  * Date: 2014-08-06
  */
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
@@ -63,6 +64,36 @@ namespace ExtensionLibrary.List
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Convert our IEnumerable to a DataTable
+        /// </summary>
+        /// <param name="ien"></param>
+        /// <returns></returns>
+        public static DataTable ToDataTable(this IEnumerable ien)
+        {
+            DataTable dt = new DataTable();
+            foreach (object obj in ien)
+            {
+                Type t = obj.GetType();
+                PropertyInfo[] pis = t.GetProperties();
+                if (dt.Columns.Count == 0)
+                {
+                    foreach (PropertyInfo pi in pis)
+                    {
+                        dt.Columns.Add(pi.Name, pi.PropertyType);
+                    }
+                }
+                DataRow dr = dt.NewRow();
+                foreach (PropertyInfo pi in pis)
+                {
+                    object value = pi.GetValue(obj, null);
+                    dr[pi.Name] = value;
+                }
+                dt.Rows.Add(dr);
+            }
+            return dt;
         }
     }
 }
