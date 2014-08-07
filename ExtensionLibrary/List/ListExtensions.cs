@@ -73,27 +73,31 @@ namespace ExtensionLibrary.List
         /// <returns></returns>
         public static DataTable ToDataTable(this IEnumerable ien)
         {
-            DataTable dt = new DataTable();
-            foreach (object obj in ien)
+            if (ien != null)
             {
-                Type t = obj.GetType();
-                PropertyInfo[] pis = t.GetProperties();
-                if (dt.Columns.Count == 0)
+                DataTable dt = new DataTable();
+                foreach (object obj in ien)
                 {
+                    Type t = obj.GetType();
+                    PropertyInfo[] pis = t.GetProperties();
+                    if (dt.Columns.Count == 0)
+                    {
+                        foreach (PropertyInfo pi in pis)
+                        {
+                            dt.Columns.Add(pi.Name, pi.PropertyType);
+                        }
+                    }
+                    DataRow dr = dt.NewRow();
                     foreach (PropertyInfo pi in pis)
                     {
-                        dt.Columns.Add(pi.Name, pi.PropertyType);
+                        object value = pi.GetValue(obj, null);
+                        dr[pi.Name] = value;
                     }
+                    dt.Rows.Add(dr);
                 }
-                DataRow dr = dt.NewRow();
-                foreach (PropertyInfo pi in pis)
-                {
-                    object value = pi.GetValue(obj, null);
-                    dr[pi.Name] = value;
-                }
-                dt.Rows.Add(dr);
+                return dt;
             }
-            return dt;
+            return null;
         }
     }
 }
