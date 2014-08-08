@@ -39,10 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="General\GeneralExtensions.cs" />
     <Compile Include="List\ListExtensions.cs" />
     <Compile Include="Math\MathExtensionClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="String\StringExtensions.cs" />
+    <Compile Include="TypeExtension\TypeExtensions.cs" />
     <Compile Include="Xml\Serialization\GenericXMLObjectSerializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
