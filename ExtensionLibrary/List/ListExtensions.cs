@@ -107,7 +107,6 @@ namespace ExtensionLibrary.List
             return item is T;
         }
 
-
         public static bool IsNot<T>(this object item) where T : class
         {
             return !(item.Is<T>());
@@ -132,8 +131,5 @@ namespace ExtensionLibrary.List
         {
             return IsNullOrEmpty<TSource>(src.ToList());
         }
-
-
-
     }
 }
