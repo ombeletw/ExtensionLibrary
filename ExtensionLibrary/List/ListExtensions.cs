@@ -86,9 +86,8 @@ namespace ExtensionLibrary.List
                     {
                         foreach (PropertyInfo pi in pis)
                         {
-                            foreach (PropertyInfo pi in pis)
-                                dt.Columns.Add(pi.Name, pi.PropertyType.IsGenericType &&
-                                    pi.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) ? pi.PropertyType.GetGenericArguments()[0] : pi.PropertyType);
+                            dt.Columns.Add(pi.Name, pi.PropertyType.IsGenericType &&
+                                pi.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) ? pi.PropertyType.GetGenericArguments()[0] : pi.PropertyType);
                         }
                     }
                     DataRow dr = dt.NewRow();
