@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByteArray\ByteArrayExtensions.cs" />
     <Compile Include="General\GeneralExtensions.cs" />
     <Compile Include="List\ListExtensions.cs" />
     <Compile Include="Math\MathExtensionClass.cs" />
