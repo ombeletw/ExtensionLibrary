@@ -357,5 +357,30 @@ namespace ExtensionLibrary.Strings
             int end = temp.IndexOf(endText, start);
             return Subsetstring(s, start, end);
         }
+
+
+        /// <summary>
+        /// Returns true if the given key is not in the string
+        /// </summary>
+        /// <param name="input">the string</param>
+        /// <param name="value">the key</param>
+        /// <returns>True - the given key is in the string.  False otherwise.</returns>
+        public static bool DoesNotContain(this string input, string value)
+        {
+            return !input.Contains(value);
+        }
+
+        /// <summary>
+        /// Returns true if the given keys are not in the string
+        /// </summary>
+        /// <param name="input">the string</param>
+        /// <param name="value">the key</param>
+        /// <returns>True - the given keys are in the string.  False otherwise.</returns>
+        public static bool DoesNotContain(this string input, params string[] values)
+        {
+            bool start = true;
+            foreach (string value in values) start &= !input.Contains(value);
+            return start;
+        }
     }
 }
