@@ -457,5 +457,19 @@ namespace ExtensionLibrary.Strings
 
             return newPath;
         }
+
+        public static string CreateRandomString(int stringLength)
+        {
+            string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-";
+            char[] chars = new char[stringLength];
+            Random rd = new Random();
+
+            for (int i = 0; i < stringLength; i++)
+            {
+                chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
+            }
+
+            return new string(chars);
+        }
     }
 }
