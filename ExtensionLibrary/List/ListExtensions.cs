@@ -94,7 +94,7 @@ namespace ExtensionLibrary.List
                     foreach (PropertyInfo pi in pis)
                     {
                         object value = pi.GetValue(obj, null);
-                        dr[pi.Name] = value;
+                        dr[pi.Name] = value != null ? value : DBNull.Value;
                     }
                     dt.Rows.Add(dr);
                 }
