@@ -74,8 +74,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ByteArray\ByteArrayExtensions.cs" />
+    <Compile Include="Enums\EnumExtensions.cs" />
     <Compile Include="General\GeneralExtensions.cs" />
     <Compile Include="HttpRequests\HttpRequestsExtension.cs" />
+    <Compile Include="HttpRequests\MediaTypes.cs" />
     <Compile Include="List\ListExtensions.cs" />
     <Compile Include="Math\MathExtensionClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

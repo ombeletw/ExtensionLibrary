@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using ExtensionLibrary.Enums;
 
 namespace ExtensionLibrary.HttpRequests
 {
@@ -16,7 +17,7 @@ namespace ExtensionLibrary.HttpRequests
         /// <param name="pathAndQuery">The path and query to call.</param>
         /// <param name="mediaType">The media type to use i.e. application/xml or application/json.</param>
         /// <returns>An object specified in the generic type.</returns>
-        public static T HttpGet<T>(string path, string baseAddress, string mediaType) where T : class
+        public static T HttpGet<T>(string path, string baseAddress, MediaTypes mediaType) where T : class
         {
             T result = default(T);
 
@@ -24,7 +25,7 @@ namespace ExtensionLibrary.HttpRequests
             {
                 client.BaseAddress = new Uri(baseAddress);
                 client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType));
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType.ToDescriptionString()));
 
                 var response = client.GetAsync(path).Result;
 
