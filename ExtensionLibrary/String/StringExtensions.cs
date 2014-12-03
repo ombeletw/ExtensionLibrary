@@ -54,12 +54,12 @@ namespace ExtensionLibrary.Strings
         /// Trim given leading char (e.g. 00000000065239656).
         /// </summary>
         /// <param name="input">The String</param>
-        /// <param name="charaterToTrim">Char To Trim off</param>
+        /// <param name="characterToTrim">Char To Trim off</param>
         /// <returns></returns>
-        public static string TrimLeadingCharacters(this string input, char charaterToTrim)
+        public static string TrimLeadingCharacters(this string input, char characterToTrim)
         {
-            if (input.IsNotNullOrEmpty() && charaterToTrim != null)
-                return input.TrimStart(charaterToTrim);
+            if (input.IsNotNullOrEmpty() && characterToTrim != '\0')
+                return input.TrimStart(characterToTrim);
             return null;
         }
 
