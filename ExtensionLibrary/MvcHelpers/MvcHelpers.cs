@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace ExtensionLibrary.MvcHelpers
 {
-    public class MvcHelpers
+    public static class MvcHelpers
     {
         /// <summary>
         /// Return output when criteria are met
