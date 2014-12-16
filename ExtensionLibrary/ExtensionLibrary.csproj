@@ -109,7 +109,6 @@
     <Compile Include="ByteArray\ByteArrayExtensions.cs" />
     <Compile Include="Enums\EnumExtensions.cs" />
     <Compile Include="General\GeneralExtensions.cs" />
-    <Compile Include="HelperClasses\ClassFactory.cs" />
     <Compile Include="HttpRequests\HttpRequestsExtension.cs" />
     <Compile Include="HttpRequests\MediaTypes.cs" />
     <Compile Include="List\EnumerableExtensions.cs" />
