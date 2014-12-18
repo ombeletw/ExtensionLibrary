@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace ExtensionLibrary.List
+namespace ExtensionLibrary.Enumerable
 {
     public static class EnumerableExtensions
     {
