@@ -41,6 +41,7 @@
       <HintPath>packages\Newtonsoft.Json.6.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO">
       <HintPath>packages\Microsoft.Bcl.1.1.9\lib\net40\System.IO.dll</HintPath>
@@ -105,6 +106,7 @@
   <ItemGroup>
     <Compile Include="ByteArray\ByteArrayExtensions.cs" />
     <Compile Include="Enums\EnumExtensions.cs" />
+    <Compile Include="Enums\EnumHelper.cs" />
     <Compile Include="General\GeneralExtensions.cs" />
     <Compile Include="HttpRequests\HttpRequestsExtension.cs" />
     <Compile Include="HttpRequests\MediaTypes.cs" />
