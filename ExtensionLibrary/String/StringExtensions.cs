@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -470,6 +471,11 @@ namespace ExtensionLibrary.Strings
             }
 
             return new string(chars);
+        }
+
+        public static string RemoveWhiteSpace(this string self)
+        {
+            return new string(self.Where(c => !Char.IsWhiteSpace(c)).ToArray());
         }
     }
 }
