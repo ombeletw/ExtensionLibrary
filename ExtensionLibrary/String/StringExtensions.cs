@@ -19,6 +19,8 @@ namespace ExtensionLibrary.Strings
     /// </summary>
     public static class StringExtensions
     {
+        private static readonly Regex InvalidFileRegex = new Regex(string.Format("[{0}]", Regex.Escape(@"<>:""/\|?*")));
+
         /// <summary>
         /// Provides a more linguitically natural method to determine whether the specified string is null or empty.
         /// </summary>
@@ -476,6 +478,16 @@ namespace ExtensionLibrary.Strings
         public static string RemoveWhiteSpace(this string self)
         {
             return new string(self.Where(c => !Char.IsWhiteSpace(c)).ToArray());
+        }
+
+        /// <summary>
+        /// Sanitizes the given filename of invalid characters
+        /// </summary>
+        /// <param name="fileName">FileName</param>
+        /// <returns></returns>
+        public static string SanitizeFileName(this string fileName)
+        {
+            return InvalidFileRegex.Replace(fileName, string.Empty);
         }
     }
 }
