@@ -14,20 +14,20 @@ namespace ExtensionLibrary.Enums
             return (T)Enum.Parse(typeof(T), name);
         }
 
-        public static string ToDescriptionString(this Enum value)
+        public static string GetEnumDescription<T>(this T value) where T : struct, IConvertible
         {
-            FieldInfo fi = value.GetType().GetField(value.ToString());
+            Type type = typeof(T);
+            var name = Enum.GetNames(type)
+                .Where(f => f.Equals(value.ToString(), StringComparison.CurrentCultureIgnoreCase))
+                .Select(d => d).FirstOrDefault();
 
-            DescriptionAttribute[] attributes =
-                (DescriptionAttribute[])fi.GetCustomAttributes(
-                typeof(DescriptionAttribute),
-                false);
-
-            if (attributes != null &&
-                attributes.Length > 0)
-                return attributes[0].Description;
-            else
-                return value.ToString();
+            if (name == null)
+            {
+                return string.Empty;
+            }
+            var field = type.GetField(name);
+            var customAttribute = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            return customAttribute.Length > 0 ? ((DescriptionAttribute)customAttribute[0]).Description : name;
         }
     }
 }
